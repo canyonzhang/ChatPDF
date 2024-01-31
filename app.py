@@ -51,7 +51,7 @@ def main():
             st.write("Embeddings loaded from the disk")
         # # If the file doesn't exist in our disk, embed it and store it into our vector database
         else:
-            embeddings = OpenAIEmbeddings(model="gpt-3.5-turbo", disallowed_special=())
+            embeddings = OpenAIEmbeddings()
             VectorStore = FAISS.from_texts(chunks, embedding=embeddings)
             with open(f"{file_name}.pkl", "wb") as f:
                 pickle.dump(VectorStore, f)
