@@ -44,17 +44,17 @@ def main():
         file_name = pdf.name[:-4] # get rid of the .pdf extension
         st.write(f'{file_name}')
 
-        # # Check if the file exists on our disk, if it does, load it and load its vector representation from our vectorstore 
-        # if os.path.exists(f"{file_name}.pkl"):
-        #     with open(f"{file_name}.pkl", "rb") as f:
-        #         VectorStore = pickle.load(f) # read the file that exists on disk and store it in a VectorStore variable
-        #     st.write("Embeddings loaded from the disk")
-        # # # If the file doesn't exist in our disk, embed it and store it into our vector database
-        # else:
-        embeddings = OpenAIEmbeddings()
-        VectorStore = FAISS.from_texts(chunks, embedding=embeddings)
-        with open(f"{file_name}.pkl", "wb") as f:
-            pickle.dump(VectorStore, f)
+        # Check if the file exists on our disk, if it does, load it and load its vector representation from our vectorstore 
+        if os.path.exists(f"{file_name}.pkl"):
+            with open(f"{file_name}.pkl", "rb") as f:
+                VectorStore = pickle.load(f) # read the file that exists on disk and store it in a VectorStore variable
+            st.write("Embeddings loaded from the disk")
+        # # If the file doesn't exist in our disk, embed it and store it into our vector database
+        else:
+            embeddings = OpenAIEmbeddings()
+            VectorStore = FAISS.from_texts(chunks, embedding=embeddings)
+            with open(f"{file_name}.pkl", "wb") as f:
+                pickle.dump(VectorStore, f)
         
         # Await the user query 
         query = st.text_input("Ask questions about your PDF file:")
